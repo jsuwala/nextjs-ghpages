@@ -13,6 +13,13 @@ const nextConfig = {
    */
   basePath: "/nextjs-ghpages",
 
+  /** 
+   * Set asset prefix. This is usually the slug of your repository.
+   * 
+   * @see https://nextjs.org/docs/pages/api-reference/next-config-js/assetPrefix
+   */
+  assetPrefix: "/nextjs-ghpages/",
+
   /**
    * Disable server-based image optimization. Next.js does not support
    * dynamic features with static exports.
