@@ -1,3 +1,5 @@
+const isProd = process.env.NODE_ENV === 'production'
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
     /**
@@ -11,14 +13,14 @@ const nextConfig = {
    *
    * @see https://nextjs.org/docs/app/api-reference/next-config-js/basePath
    */
-  basePath: "/nextjs-ghpages",
+  basePath: isProd? "/nextjs-ghpages": undefined,
 
   /** 
    * Set asset prefix. This is usually the slug of your repository.
    * 
    * @see https://nextjs.org/docs/pages/api-reference/next-config-js/assetPrefix
    */
-  assetPrefix: "/nextjs-ghpages/",
+  assetPrefix: isProd ? "/nextjs-ghpages/": undefined,
 
   /**
    * Disable server-based image optimization. Next.js does not support
