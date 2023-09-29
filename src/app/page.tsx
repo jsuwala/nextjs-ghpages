@@ -3,6 +3,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useMemo } from 'react'
 import ProductList from '@/components/productList'
+import HomeHero from '@/components/homeHero'
 
 // import  Map from '@/components/Map'
 
@@ -13,6 +14,7 @@ export default function Home() {
 
   return (
     <main className="pt-16">            
+        <HomeHero />
         <Map />      
         <ProductList  />
     </main>
