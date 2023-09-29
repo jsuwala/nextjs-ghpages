@@ -25,3 +25,6 @@ body {
     )
     rgb(var(--background-start-rgb));
 }
+
+.top-navbar { border: 1px solid red; z-index: 5000; }
+.bottom-bar { border: 1px solid blue; }
