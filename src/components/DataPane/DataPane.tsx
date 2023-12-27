@@ -1,9 +1,27 @@
-import { useState } from 'react';
+import { fetchCatalog } from '@services/stac';
+import { useState, useEffect } from 'react';
+import { Catalog } from '@stac/StacObjects';
+
+// Fetch the catalog and set it in the state
+const _fetchCatalog = async (): Promise<Catalog> => {
+    const catalogData = await fetchCatalog();
+    return catalogData;
+};
 
 const DataPane = () => {
     const [startDateTime, setStartDateTime] = useState('');
     const [endDateTime, setEndDateTime] = useState('');
     const [selectedProduct, setSelectedProduct] = useState('');
+    const [catalog, setCatalog] = useState<Catalog>(); // Update type annotation for catalog
+
+    useEffect(() => {
+        const fetchData = async () => {
+            const data = await _fetchCatalog();
+            setCatalog(data);
+        };
+
+        fetchData();
+    }, []); // Run once on component mount
 
     const handleStartDateTimeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setStartDateTime(event.target.value);
@@ -24,6 +42,8 @@ const DataPane = () => {
 
     return (
         <div>
+            <p>Nav</p>
+            <a href={catalog?.links?.find((link: any) => link.rel === 'self')?.href}>View Catalog</a>
             <div>
                 <label htmlFor="startDateTime">Start DateTime:</label>
                 <input type="datetime-local" id="startDateTime" value={startDateTime} onChange={handleStartDateTimeChange} />
@@ -45,7 +65,10 @@ const DataPane = () => {
                 </label>
             </div>
             <button onClick={handleQueryData}>Query Data</button>
-            {/* Display the list of found data here */}
+            {/* Display the catalog and its contents */}
+            <div>
+                <pre>{JSON.stringify(catalog, null, 2)}</pre>
+            </div>
         </div>
     );
 };
