@@ -1,4 +1,4 @@
-import '@styles/globals.scss'
+import '@styles/tailwind.css'
 
 function MyApp({ Component, pageProps }: { Component: React.ComponentType, pageProps: any }) {
   return <Component {...pageProps} />

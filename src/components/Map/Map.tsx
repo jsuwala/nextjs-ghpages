@@ -1,19 +1,9 @@
-import { JSX, ReactNode, useEffect } from 'react';
 import Leaflet from 'leaflet';
-import * as ReactLeaflet from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
+import * as ReactLeaflet from 'react-leaflet';
+import React, { JSX, ReactNode, useEffect } from 'react';
 
-import styles from './Map.module.scss';
-
-const { MapContainer } = ReactLeaflet;
-
-
-const DynamicMap = ({ children, className, width, height, defaultX, defaultY, defaultZoom, ...rest }: { children: React.ReactNode, className: string, width: number, height: number, defaultX: number, defaultY: number, defaultZoom: number, [key: string]: any }) => {
-    let mapClassName = styles.map;
-
-    if ( className ) {
-        mapClassName = `${mapClassName} ${className}`;
-    }
+const DynamicMap = ({ children, className, width, height, defaultCenter, defaultZoom, ...rest }: { children: React.ReactNode, className: string, width: number, height: number, defaultCenter: number[], defaultZoom: number, [key: string]: any }) => {
 
     useEffect(() => {
         (async function init() {
@@ -26,16 +16,16 @@ const DynamicMap = ({ children, className, width, height, defaultX, defaultY, de
     }, []);
 
     return (
-        <MapContainer className={mapClassName} center={[defaultX, defaultY]} zoom={defaultZoom} {...rest}>
+        <ReactLeaflet.MapContainer className={className} center={defaultCenter} zoom={defaultZoom} {...rest}>
             <ReactLeaflet.TileLayer
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                attribution="Map data &copy; <a href=&quot;https://www.openstreetmap.org/&quot;>OpenStreetMap</a> contributors"
+                // attribution="Map data &copy; <a href=&quot;https://www.openstreetmap.org/&quot;>OpenStreetMap</a> contributors"
             />
             {/* <ReactLeaflet.TileLayer
                 url="https://titiler.xyz"
             /> */}
             {/* {typeof children === 'function' && children(ReactLeaflet || {}, Leaflet || {})} */}
-        </MapContainer>
+        </ReactLeaflet.MapContainer>
     )
 }
 
@@ -46,13 +36,14 @@ const DEFAULT_WIDTH = 600;
 const DEFAULT_HEIGHT = 600;
 const DEFAULT_X = 49;
 const DEFAULT_Y = -123;
+const DEFAULT_CENTER = [DEFAULT_X, DEFAULT_Y];
 const DEFAULT_ZOOM = 10;
 
-const Map = (props: JSX.IntrinsicAttributes & { [key: string]: any; children: ReactNode; className: string; width: number; height: number; defaultX: number; defaultY: number; defaultZoom: number; }) => {
-    const { width = DEFAULT_WIDTH, height = DEFAULT_HEIGHT, defaultX = DEFAULT_X, defaultY = DEFAULT_Y, defaultZoom = DEFAULT_ZOOM } = props;
+const Map = (props: JSX.IntrinsicAttributes & { [key: string]: any; children: ReactNode; className: string; width: number; height: number; center: number[]; zoom: number; }) => {
+    const { width = DEFAULT_WIDTH, height = DEFAULT_HEIGHT, defaultCenter = DEFAULT_CENTER, defaultZoom = DEFAULT_ZOOM } = props;
     return (
         <div style={{ aspectRatio: width / height }}>
-            <DynamicMap {...props} defaultX={defaultX} defaultY={defaultY} defaultZoom={defaultZoom} />
+            <DynamicMap {...props} center={defaultCenter} zoom={defaultZoom} />
         </div>
     )
 }
