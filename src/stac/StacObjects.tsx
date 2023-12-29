@@ -1,4 +1,11 @@
 
+export type STACLink = {
+    rel: string;
+    href: string;
+    title: string;
+    id: string;
+    type?: string;
+};
 
 // Define the type for the catalog
 export type Catalog = {
@@ -6,10 +13,7 @@ export type Catalog = {
     title: string;
     description: string;
     stac_version: string;
-    links: {
-        rel: string;
-        href: string;
-    }[];
+    links: STACLink[];
     // Add any additional properties specific to your STAC Catalog
 };
 
@@ -24,6 +28,15 @@ export type Collection = {
         href: string;
     }[];
     // Add any additional properties specific to your STAC Collection
+};
+
+export type Asset = {
+    href: string;
+    type: string;
+    title: string;
+    description: string;
+    roles: string[];
+    // Add any additional properties specific to your STAC Asset
 };
 
 // Define the type for the item
@@ -61,19 +74,7 @@ export type Item = {
             nodata: number;
         }[];
     };
-    assets: {
-        [key: string]: {
-            href: string;
-            title: string;
-            type: string;
-            description: string;
-            roles: string[];
-            // Add any additional properties specific to your STAC Item Asset
-        };
-    };
-    links: {
-        rel: string;
-        href: string;
-    }[];
+    assets: Asset[];
+    links: STACLink[];
     // Add any additional properties specific to your STAC Item
 };

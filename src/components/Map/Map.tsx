@@ -1,9 +1,9 @@
-import Leaflet from 'leaflet';
+import Leaflet, { LatLngExpression} from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import * as ReactLeaflet from 'react-leaflet';
-import React, { JSX, ReactNode, useEffect } from 'react';
+import React, { JSX, useEffect } from 'react';
 
-const DynamicMap = ({ children, className, width, height, defaultCenter, defaultZoom, ...rest }: { children: React.ReactNode, className: string, width: number, height: number, defaultCenter: number[], defaultZoom: number, [key: string]: any }) => {
+const DynamicMap = ({ className, defaultCenter, defaultZoom, ...rest }: { className: string, defaultCenter: number[], defaultZoom: number, [key: string]: any }) => {
 
     useEffect(() => {
         (async function init() {
@@ -15,8 +15,10 @@ const DynamicMap = ({ children, className, width, height, defaultCenter, default
         })();
     }, []);
 
+    const mapCenter: LatLngExpression = [defaultCenter[0], defaultCenter[1]];
+
     return (
-        <ReactLeaflet.MapContainer className={className} center={defaultCenter} zoom={defaultZoom} {...rest}>
+        <ReactLeaflet.MapContainer className={className} center={mapCenter} zoom={defaultZoom} {...rest}>
             <ReactLeaflet.TileLayer
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                 // attribution="Map data &copy; <a href=&quot;https://www.openstreetmap.org/&quot;>OpenStreetMap</a> contributors"
@@ -29,23 +31,13 @@ const DynamicMap = ({ children, className, width, height, defaultCenter, default
     )
 }
 
-// Set default sizing to control aspect ratio which will scale responsively
-// but also help avoid layout shift
-
-const DEFAULT_WIDTH = 600;
-const DEFAULT_HEIGHT = 600;
-const DEFAULT_X = 49;
-const DEFAULT_Y = -123;
-const DEFAULT_CENTER = [DEFAULT_X, DEFAULT_Y];
-const DEFAULT_ZOOM = 10;
-
-const Map = (props: JSX.IntrinsicAttributes & { [key: string]: any; children: ReactNode; className: string; width: number; height: number; center: number[]; zoom: number; }) => {
-    const { width = DEFAULT_WIDTH, height = DEFAULT_HEIGHT, defaultCenter = DEFAULT_CENTER, defaultZoom = DEFAULT_ZOOM } = props;
+const DataMap = (props: JSX.IntrinsicAttributes & { className: string; width: number; height: number; center: number[]; zoom: number; }) => {
+    const { width, height, center, zoom } = props;
     return (
         <div style={{ aspectRatio: width / height }}>
-            <DynamicMap {...props} center={defaultCenter} zoom={defaultZoom} />
+            <DynamicMap {...props} defaultCenter={center} defaultZoom={zoom} />
         </div>
     )
 }
 
-export default Map;
+export default DataMap;
