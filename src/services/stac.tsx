@@ -21,14 +21,12 @@ export const fetchCatalog = async (): Promise<any> => {
 };
 
 export const fetchCollection = async (collectionLink: string): Promise<any> => {
-    console.log('collectionLink', collectionLink)
     try {
         const response = await axios.get(collectionLink, {
             headers: {
                 'Content-Type': 'application/json',
             },
         });
-        console.log('Collection:', response.data); // Add this line
         return response.data;
     } catch (error) {
         console.error('Error fetching collection:', error);
@@ -66,3 +64,17 @@ export const fetchItems = async (collection: Collection, startDateTime: string, 
     }
 }
     
+export const fetchItem = async (itemLink: string): Promise<any> => {
+    try {
+        const response = await axios.get(itemLink, {
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+        console.log('Item:', response.data); // Add this line
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching item:', error);
+        throw error;
+    }
+}

@@ -34,7 +34,7 @@ const DynamicMap = ({ className, defaultCenter, defaultZoom, ...rest }: { classN
 const DataMap = (props: JSX.IntrinsicAttributes & { className: string; width: number; height: number; center: number[]; zoom: number; }) => {
     const { width, height, center, zoom } = props;
     return (
-        <div style={{ aspectRatio: width / height }}>
+        <div>
             <DynamicMap {...props} defaultCenter={center} defaultZoom={zoom} />
         </div>
     )
